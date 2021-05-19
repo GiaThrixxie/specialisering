@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>DnD SPA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="A single page application for my collection of Dungeons and Dragons games with friends!">
+  <meta name="author" content="Line Merrild Nielsen">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+</head>
+
+<body onhashchange="pageChange()">
+  <!-- tabbar navigation -->
+  <nav class="tabbar">
+    <a href="#profile">Profile</a>
+    <a href="#all_characters">Characters</a>
+  </nav>
+
+  <!-- pages -->
+  
+  <!-- Pages to make; 
+  Characters (search. Add Character button),
+  Campaigns (show one, hide all others. Add Campaign button),
+  My Profile (show all MY characters. Add Character button),
+  ON CLICK CHARACTER (open character sheet w. edit/update function, + delete) -->
+
+  <!-- home / my profile page -->
+  <!-- <section id="my_profile" class="page">
+    <header class="topbar">
+      <h2>My Profile</h2>
+      <a class="right" href="#create">Add</a>
+    </header>
+    <div id="my-characters-container" class="grid-container"></div>
+  </section> -->
+
+  <!-- All Characters page-->
+  <section id="all_characters" class="page">
+    <header class="topbar">
+      <h2>Characters</h2>
+      <a class="right" href="#create">Add</a>
+    </header>
+    <div id="all-characters-container" class="grid-container"></div>
+  </section>
+
+  <!-- create user page -->
+  <section id="create" class="page">
+    <header class="topbar">
+      <a class="left" href="#home">Back</a>
+      <h2>Create user</h2>
+      <a class="right" onclick="createUser()">Save</a>
+    </header>
+    <form>
+      <input type="text" id="name" placeholder="Type your name" required>
+      <input type="email" id="mail" placeholder="Type your mail" required>
+      <input type="file" id="img" accept="image/*" onchange="previewImage(this.files[0], 'imagePreview')">
+      <img id="imagePreview" class="image-preview">
+      <button type="button" name="button" onclick="createUser()">Save User</button>
+    </form>
+  </section>
+
+  <!-- edit user page -->
+  <section id="edit" class="page">
+    <header class="topbar">
+      <a class="left" href="#home">Cancel</a>
+      <h2>Edit user</h2>
+      <a class="right" onclick="updateUser('create')">Save</a>
+    </header>
+    <form>
+      <input type="text" id="name-update" placeholder="Name" required>
+      <input type="email" id="mail-update" placeholder="Mail" required>
+      <input type="file" id="img" accept="image/*" onchange="previewImage(this.files[0], 'imagePreviewUpdate')">
+      <img id="imagePreviewUpdate" class="image-preview">
+      <button type="button" name="button" onclick="updateUser()">Save User</button>
+    </form>
+  </section>
+
+  <!-- profile page -->
+  <section id="profile" class="page">
+    <header class="topbar">
+      <h2>Profile</h2>
+      <a class="right" href="#" onclick="logout()">Logout</a>
+    </header>
+    <img id="imagePreview" class="image-preview">
+    <div id="user-data"></div>
+    
+    <div id="my-characters-container" class="grid-container"></div>
+  </section>
+
+  <!-- login page -->
+  <section id="login" class="page">
+    <header class="topbar">
+      <h2>Login</h2>
+    </header>
+    <!-- firebase auth container  -->
+    <section id="firebaseui-auth-container"></section>
+  </section>
+
+  <!-- loader  -->
+  <!--<div id="loader">
+    <div class="spinner"></div>
+  </div> -->
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
+  <!-- Firebase Authentication -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-auth.js"></script>
+  <!-- Firebase Firestore (database) JS SDK -->
+  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-firestore.js"></script>
+  <!-- Firebase Authentication UI -->
+  <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+  <!-- Single Page Functionality  -->
+  <script src="js/spa.js"></script>
+  <!-- main js file -->
+  <script src="js/main.js"></script>
+</body>
+
+</html>
