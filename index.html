@@ -1,119 +1,144 @@
 <!doctype html>
 <html lang="en">
 
-<head>
-  <meta charset="utf-8">
-  <title>DnD SPA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="A single page application for my collection of Dungeons and Dragons games with friends!">
-  <meta name="author" content="Line Merrild Nielsen">
-  <link rel="stylesheet" href="css/main.css">
-  <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
-</head>
+  <head>
+    <meta charset="utf-8">
+    <title>DnD SPAp</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="A single page application for my collection of Dungeons and Dragons games with friends!">
+    <meta name="author" content="Line Merrild Nielsen">
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.css" />
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="shortcut icon" type="image/png" href="img/favicon.png" />
+  </head>
 
-<body onhashchange="pageChange()">
-  <!-- tabbar navigation -->
-  <nav class="tabbar">
-    <a href="#profile">Profile</a>
-    <a href="#all_characters">Characters</a>
-  </nav>
+  <body onhashchange="pageChange()">
+    <!-- tabbar navigation -->
+    <nav id="tabbar" class="tabbar hide">
+      <a href="#all_characters">All Characters</a>
+      <a href="#create">Create</a>
+      <a href="#my-characters">My Characters</a>
+      <a href="#profile">Profile</a>
+    </nav>
 
-  <!-- pages -->
-  
-  <!-- Pages to make; 
-  Characters (search. Add Character button),
-  Campaigns (show one, hide all others. Add Campaign button),
-  My Profile (show all MY characters. Add Character button),
-  ON CLICK CHARACTER (open character sheet w. edit/update function, + delete) -->
 
-  <!-- home / my profile page -->
-  <!-- <section id="my_profile" class="page">
-    <header class="topbar">
-      <h2>My Profile</h2>
-      <a class="right" href="#create">Add</a>
-    </header>
-    <div id="my-characters-container" class="grid-container"></div>
-  </section> -->
-
-  <!-- All Characters page-->
-  <section id="all_characters" class="page">
-    <header class="topbar">
-      <h2>Characters</h2>
-      <a class="right" href="#create">Add</a>
-    </header>
-    <div id="all-characters-container" class="grid-container"></div>
-  </section>
-
-  <!-- create user page -->
-  <section id="create" class="page">
-    <header class="topbar">
-      <a class="left" href="#home">Back</a>
-      <h2>Create user</h2>
-      <a class="right" onclick="createUser()">Save</a>
-    </header>
-    <form>
-      <input type="text" id="name" placeholder="Type your name" required>
-      <input type="email" id="mail" placeholder="Type your mail" required>
-      <input type="file" id="img" accept="image/*" onchange="previewImage(this.files[0], 'imagePreview')">
-      <img id="imagePreview" class="image-preview">
-      <button type="button" name="button" onclick="createUser()">Save User</button>
-    </form>
-  </section>
-
-  <!-- edit user page -->
-  <section id="edit" class="page">
-    <header class="topbar">
-      <a class="left" href="#home">Cancel</a>
-      <h2>Edit user</h2>
-      <a class="right" onclick="updateUser('create')">Save</a>
-    </header>
-    <form>
-      <input type="text" id="name-update" placeholder="Name" required>
-      <input type="email" id="mail-update" placeholder="Mail" required>
-      <input type="file" id="img" accept="image/*" onchange="previewImage(this.files[0], 'imagePreviewUpdate')">
-      <img id="imagePreviewUpdate" class="image-preview">
-      <button type="button" name="button" onclick="updateUser()">Save User</button>
-    </form>
-  </section>
-
-  <!-- profile page -->
-  <section id="profile" class="page">
-    <header class="topbar">
-      <h2>Profile</h2>
-      <a class="right" href="#" onclick="logout()">Logout</a>
-    </header>
-    <img id="imagePreview" class="image-preview">
-    <div id="user-data"></div>
+    <!--Characters (search. Add Character button),
+    Campaigns (show one, hide all others. Add Campaign button),
+    My Profile (show all MY characters. Add Character button),
+    ON CLICK CHARACTER (open character sheet w. edit/update function, + delete) -->
     
-    <div id="my-characters-container" class="grid-container"></div>
-  </section>
+    <!-- pages -->
+    <!-- Character page / Home page -->
+    <section id="all_characters" class="page">
+      <header class="topbar">
+        <h2>Characters</h2>
+        <a class="right" href="#create">Add</a>
+      </header>
+      <div id="all-characters-container" class="grid-container"></div>
+    </section>
 
-  <!-- login page -->
-  <section id="login" class="page">
-    <header class="topbar">
-      <h2>Login</h2>
-    </header>
-    <!-- firebase auth container  -->
-    <section id="firebaseui-auth-container"></section>
-  </section>
+    <!-- create page -->
+    <section id="create" class="page">
+      <header class="topbar">
+        <a class="left" href="#all_characters">Back</a>
+        <h2>Create new character</h2>
+      </header>
+      <form>
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Your character's name" required>
+        <label for="race">Race</label>
+        <input type="text" id="race" placeholder="Your character's race" required>
+        <label for="primary_class">Class</label>
+        <input type="text" id="primary_class" placeholder="Your character's class" required>
+        <label for="subclass">Subclass</label>
+        <input type="text" id="subclass" placeholder="Your character's subclass, if any">
+        <label for="campaign">Campaign</label>
+        <input type="text" id="campaign" placeholder="Your character's campaign, if any">
+        <label for="imageUrl">Image Url</label>
+        <input type="url" id="imageUrl" placeholder="Paste an image url" required>
+        
+        <button type="button" name="button" onclick="createCharacter()">Create</button>
+      </form>
+    </section>
 
-  <!-- loader  -->
-  <!--<div id="loader">
-    <div class="spinner"></div>
-  </div> -->
+    <!-- Update character page -->
+    <section id="edit" class="page">
+      <header class="topbar">
+        <a class="left" href="#all-characters">Cancel</a>
+        <h2>Edit Character info</h2>
+        <article></article>
+        <a class="right" onclick="updateCharacter('create')">Save</a>
+      </header>
+      <form>
+        <input type="text" id="name-update" placeholder="Name" required>
+        <input type="text" id="race-update" placeholder="Race" required>
+        <input type="text" id="primary-class-update" placeholder="Class" required>
+        <input type="text" id="subclass-update" placeholder="Subclass, if any">
+        <input type="text" id="campaign-update" placeholder="Campaign, if any">
+        <input type="url" id="image-update" placeholder="Paste an image url" required>
+        <button type="button" name="button" onclick="updateCharacter()">Update Character</button>
+      </form>
+    </section>
 
-  <!-- The core Firebase JS SDK is always required and must be listed first -->
-  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-app.js"></script>
-  <!-- Firebase Authentication -->
-  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-auth.js"></script>
-  <!-- Firebase Firestore (database) JS SDK -->
-  <script src="https://www.gstatic.com/firebasejs/8.4.2/firebase-firestore.js"></script>
-  <!-- Firebase Authentication UI -->
-  <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
-  <!-- Single Page Functionality  -->
-  <script src="js/spa.js"></script>
-  <!-- main js file -->
-  <script src="js/main.js"></script>
-</body>
+    <!-- User's own characters page -->
+    <section id="my-characters" class="page">
+      <header class="topbar">
+        <h2>Own Characters</h2>
+      </header>
+      <div id="own-characters-container" class="grid-container"></div>
+    </section>
+
+    <!-- profile page -->
+    <section id="profile" class="page">
+      <header class="topbar">
+        <h2>Profile</h2>
+        <a class="right" href="#" onclick="logout()">Logout</a>
+      </header>
+      <a class="right" href="#updateUser">Update my information</a>
+    </section>
+
+    <!-- Update user info page -->
+    <section id="updateUser" class="page">
+      <header class="topbar">
+        <a class="left" href="#profile">Back</a>
+        <h2>Update your info</h2>
+      </header>
+      <form>
+        <label for="name">Name</label>
+        <input type="text" id="name" placeholder="Type your name" required>
+        <label for="mail">Mail</label>
+        <input type="email" id="mail" placeholder="Type your mail" disabled>
+        <label for="img">Profile Image</label>
+        <input type="file" id="img" accept="image/*" onchange="previewImage(this.files[0], 'imagePreview')">
+        <img id="imagePreview" class="image-preview">
+        <button type="button" name="button" onclick="updateUser()">Save</button>
+      </form>
+    </section>
+    
+    <!-- login page -->
+    <section id="login" class="page">
+      <header class="topbar">
+        <h2>Login</h2>
+      </header>
+      <!-- firebase auth container  -->
+      <section id="firebaseui-auth-container"></section>
+    </section>
+
+    <!-- loader  -->
+    <div id="loader">
+      <div class="spinner"></div>
+    </div>
+    <!-- Firebase App SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.4.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/ui/4.8.0/firebase-ui-auth.js"></script>
+    <!-- SPA functionality -->
+    <script src="js/spa.js"></script>
+    <!-- firebase config js file -->
+    <script src="js/firebase-config.js"></script>
+    <!-- main js file -->
+    <script src="js/app.js"></script>
+  </body>
 
 </html>
