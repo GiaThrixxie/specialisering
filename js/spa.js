@@ -52,3 +52,33 @@ function showLoader(show) {
     loader.classList.add("hide");
   }
 }
+
+// Functionality for charactersheet page
+
+// sets active tabbar/ menu item
+function setActiveTabCharacterSheet() {
+  // Get the container element
+  let navContainer = document.getElementById("nav-list");
+
+  // Get all buttons with class="btn" inside the container
+  let navLinks = navContainer.getElementsByClassName("nav-link");
+
+  // Loop through the buttons and add the active class to the current/clicked button
+  for (let i = 0; i < navLinks.length; i++) {
+    navLinks[i].addEventListener("click", function() {
+    let current = document.getElementsByClassName("active-nav");
+    current[0].className = current[0].className.replace(" active-nav", "");
+    // Add the active class to the current/clicked button
+    this.className += " active-nav";
+    });
+  }
+}
+
+// resets active tabbar when you next enter a charactersheet
+function resetActiveTabCharacterSheet() {
+  let current = document.getElementsByClassName("active-nav");
+  let nav_intro = document.getElementById("intro-tab");
+
+  current[0].className = current[0].className.replace(" active-nav", "");
+  nav_intro.className += " active-nav";
+}
